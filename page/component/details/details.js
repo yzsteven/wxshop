@@ -1,6 +1,6 @@
 // page/component/details/details.js
 Page({
-  data:{
+  data: {
     goods: {
       id: 1,
       image: '/image/goods1.png',
@@ -20,12 +20,23 @@ Page({
     interval: 3000,
     duration: 800
   },
-
+  onLoad: function (options) {
+    var self = this;
+    wx.request({
+      url: 'https://www.lanrensc.cn/ysg-system/shop/details?id=' + options.id,
+      success(res) {
+        self.setData({
+          goods: res.data.retValue.good,
+        })
+      }
+    });
+    console.log(options)
+  },
   addCount() {
     let num = this.data.num;
     num++;
     this.setData({
-      num : num
+      num: num
     })
   },
 
@@ -37,15 +48,15 @@ Page({
     self.setData({
       show: true
     })
-    setTimeout( function() {
+    setTimeout(function () {
       self.setData({
         show: false,
-        scaleCart : true
+        scaleCart: true
       })
-      setTimeout( function() {
+      setTimeout(function () {
         self.setData({
           scaleCart: false,
-          hasCarts : true,
+          hasCarts: true,
           totalNum: num + total
         })
       }, 200)
@@ -59,5 +70,5 @@ Page({
       curIndex: index
     })
   }
- 
+
 })

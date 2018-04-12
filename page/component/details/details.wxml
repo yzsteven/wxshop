@@ -2,15 +2,11 @@
     <view class="goods-box">
     
     <swiper indicator-dots="true" autoplay="true" interval="{{interval}}" duration="{{duration}}" circular="true">
+    <block wx:for="{{goods.images}}" wx:key="{{index}}">
       <swiper-item>
-          <image src="{{goods.image}}" class="goods-thumb"></image>
+          <image src="{{item}}" class="goods-thumb"></image>
       </swiper-item>
-      <swiper-item>
-          <image src="{{goods.image}}" class="goods-thumb"></image>
-      </swiper-item>
-      <swiper-item>
-          <image src="{{goods.image}}" class="goods-thumb"></image>
-      </swiper-item>
+    </block>
     </swiper>
         
         <navigator open-type="switchTab" url="../cart/cart">
@@ -29,7 +25,7 @@
         <image wx:if="{{show}}" src="/image/cart1.png" class="to-carts-icon"></image>
         <view class="goods-stock">{{goods.stock}}</view>
         <view class="goods-title">{{goods.title}}</view>
-        <view class="goods-price">￥ {{goods.price}}</view>
+        <view class="goods-price">￥ {{goods.price[0].price}}</view>
     </view>
     <view class="goods-tab-box">
         <view class="goods-tab-nav {{curIndex === 0 ?'on':''}}" bindtap="bindTap" data-index="0">商品详情</view>

@@ -19,7 +19,10 @@ Page({
       success: function (res) {
         console.log(res.data);
         console.log(res.data.retValue.banner);
-        that.setData({banner:res.data.retValue.banner});
+        that.setData({
+          banner:res.data.retValue.banner,
+          newlist: res.data.retValue.newlist
+        });
         console.log(data);
       }
     })
