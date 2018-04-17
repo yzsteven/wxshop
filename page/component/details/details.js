@@ -40,6 +40,17 @@ Page({
     })
   },
 
+  minusCount(e) {
+    let num = this.data.num;
+    if (num <= 1) {
+      return false;
+    }
+    num = num - 1;
+    this.setData({
+      num: num
+    });
+  },
+
   addToCart() {
     const self = this;
     const num = this.data.num;
@@ -62,6 +73,27 @@ Page({
       }, 200)
     }, 300)
 
+    wx.request({
+      url: 'https://www.lanrensc.cn/ysg-system/shop/addShoppingCart',
+      data: {
+        gid: this.data.goods.id,
+        cid: 1,
+        spec:this.data.goods.price.name,
+        price: this.data.goods.price.price,
+        createBy:'api',
+        updateBy:'api',
+        num:this.data.num
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success(res) {
+        console.log(res.data);
+        this.setData({
+          num: 0
+        })
+      }
+    });
   },
 
   bindTap(e) {
