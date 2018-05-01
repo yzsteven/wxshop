@@ -1,16 +1,6 @@
 // page/component/details/details.js
 Page({
   data: {
-    goods: {
-      id: 1,
-      image: '/image/goods1.png',
-      title: '新鲜梨花带雨',
-      price: 0.01,
-      stock: '有货',
-      detail: '这里是梨花带雨详情。',
-      parameter: '125g/个',
-      service: '不支持退货'
-    },
     num: 1,
     totalNum: 0,
     hasCarts: false,
@@ -40,8 +30,9 @@ Page({
     })
   },
 
-  minusCount(e) {
+  minusCount() {
     let num = this.data.num;
+    console.log(num);
     if (num <= 1) {
       return false;
     }
@@ -55,7 +46,6 @@ Page({
     const self = this;
     const num = this.data.num;
     let total = this.data.totalNum;
-
     self.setData({
       show: true
     })
@@ -72,25 +62,26 @@ Page({
         })
       }, 200)
     }, 300)
-
+    
     wx.request({
       url: 'https://www.lanrensc.cn/ysg-system/shop/addShoppingCart',
       data: {
-        gid: this.data.goods.id,
+        gid: self.data.goods.id,
         cid: 1,
-        spec:this.data.goods.price.name,
-        price: this.data.goods.price.price,
+        spec: self.data.goods.price[0].spec,
+        price: self.data.goods.price[0].price,
         createBy:'api',
         updateBy:'api',
-        num:this.data.num
+        num: self.data.num
       },
+      method:"POST",
       header: {
         'content-type': 'application/json' // 默认值
       },
       success(res) {
-        console.log(res.data);
-        this.setData({
-          num: 0
+        console.log(res);
+        self.setData({
+          num: 1
         })
       }
     });
