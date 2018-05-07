@@ -18,15 +18,16 @@
         <view class="orders">我的订单</view>
         <view class="orders-list" wx:for="{{orders}}" wx:key="index">
             <view class="orders-number">订单编号：{{item.number}}</view>
-            <view class="orders-detail">
-                <image src="{{item.thumb}}"></image>
-                <view class="">{{item.name}}</view>
-                <view class="">{{item.count}}</view>
-                <text class="orders-status">{{item.status}}</text>
+            <view class="orders-detail" wx:for="{{item.gInfo}}" wx:for-item="good">
+                <image src="{{good.thumb}}"></image>
+                <view class="">{{good.name}}</view>
+                <view class="">{{good.count}}</view>
             </view>
             <view class="orders-footer">
                 <text>实付：￥{{item.money}}</text>
-                <button size="mini" class="orders-btn" bindtap="payOrders">付款</button>
+                <button size="mini" class="orders-btn" bindtap="payOrders" wx:if="{{item.status == 1}}">待支付</button>
+                 <button size="mini" class="orders-btn" bindtap="payOrders" wx:elif="{{item.status == 2}}">待发货</button>
+                  <button size="mini" class="orders-btn" bindtap="payOrders" wx:elif="{{item.status == 3}}">待收货</button>
             </view>
         </view>
     </view>

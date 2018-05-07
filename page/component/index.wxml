@@ -10,18 +10,18 @@
         <view class="select-title"><text>精选主题</text></view>
         <view class="select-top">
             <view class="select-top-small">
-                <navigator url="list/list">
+                <navigator url="list/list?type=1">
                     <image src="/image/s1.png"></image>
                 </navigator>
             </view>
             <view class="select-top-small">
-                <navigator url="list/list">
+                <navigator url="list/list?type=2">
                     <image src="/image/s2.png"></image>
                 </navigator>
             </view>
         </view>
         <view class="select-bottom">
-            <navigator url="list/list">
+            <navigator url="list/list?type=3">
                 <image src="/image/s3.png"></image>
             </navigator>
         </view>

@@ -10,13 +10,30 @@ Page({
     }
   },
   onShow() {
-    this.setData({
-      hasList: true,
-      carts:[
-        {id:1,title:'新鲜芹菜 半斤',image:'/image/s5.png',num:4,price:0.01,selected:true},
-        {id:2,title:'素米 500g',image:'/image/s6.png',num:1,price:0.03,selected:true}
-      ]
-    });
+    var self = this;
+    wx.request({
+      url: 'https://www.lanrensc.cn/ysg-system/shop/queryShoppingCart', //仅为示例，并非真实的接口地址
+      data: {
+        cid: "1",
+        createBy: "api"
+      },
+      method: "POST",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res);
+        var hasList = true;
+        if (!res.data.retValue.glist.length){
+          hasList = false;
+        }
+        self.setData({
+          hasList: hasList,
+          carts: res.data.retValue.glist,
+          totalPrice : res.data.retValue.totalPrice
+        });
+      }
+    })
     this.getTotalPrice();
   },
   /**
@@ -37,8 +54,26 @@ Page({
    * 删除购物车当前商品
    */
   deleteList(e) {
+    wx.request({
+      url: 'https://www.lanrensc.cn/ysg-system/shop/deleShoppingCart', //仅为示例，并非真实的接口地址
+      data: {
+        ids: e.currentTarget.dataset.id,
+      },
+      success: function (res) {
+        console.log(res.data.retValue);
+        if (res.data.retValue.result != "success"){
+          wx.showModal({
+            title: '提示',
+            content: '删除失败',
+            text: 'center',
+          })
+        }
+      }
+    })
+
     const index = e.currentTarget.dataset.index;
     let carts = this.data.carts;
+    console.log(carts);
     carts.splice(index,1);
     this.setData({
       carts: carts
@@ -118,6 +153,33 @@ Page({
     this.setData({                                // 最后赋值到data中渲染到页面
       carts: carts,
       totalPrice: total.toFixed(2)
+    });
+  },
+
+  /**
+   * 去下单
+   */
+  goBalance(){
+    let carts = this.data.carts;
+    let total = 0;
+    let array = new Array();
+    for (let i = 0; i < carts.length; i++) {         // 循环列表得到每个数据
+      if (carts[i].selected) {                     // 判断选中才会计算价格
+        total += carts[i].num * carts[i].price; 
+        array.push(carts[i])
+      }
+    }
+    console.log(array);
+    wx.setStorage({
+      key: "orders",
+      data: array
+    })
+    wx.setStorage({
+      key: "total",
+      data: total
+    })
+    wx.navigateTo({
+      url: "../orders/orders"
     });
   }
 

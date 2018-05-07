@@ -111,7 +111,7 @@
 }
 .orders-footer .orders-btn{
     float: right;
-    width: 170rpx;
+    width: 180rpx;
     height: 60rpx;
     line-height:60rpx;
     border-radius: 6rpx;

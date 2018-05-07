@@ -5,17 +5,18 @@ Page({
     "nickname": "",
     "orders": [
       {
-        "thumb":"",
         "number": "123",
-        "name": "苹果",
-        "count": "1",
-        "status": "已支付",
-        "money": "10"
-      }, {
-        "thumb":"",
-        "number": "123",
-        "name": "苹果",
-        "count": "1",
+        "gInfo": [
+          {
+            "thumb": "",
+            "name": "苹果",
+            "count": "1"
+          }, {
+            "thumb": "",
+            "name": "苹果",
+            "count": "1"
+          }
+        ],
         "status": "已支付",
         "money": "10"
       }
@@ -45,10 +46,23 @@ Page({
      * 发起请求获取订单列表信息
      */
     wx.request({
-      url: 'http://www.gdfengshuo.com/api/wx/orders.txt',
+      url: 'https://www.lanrensc.cn/ysg-system/shop/queryOrderListByUID',
+      data: {
+        "cid": "1",
+        "createBy": "api",
+        "pageHelper": {
+          "pageNumber": "",
+          "pageSize": "",
+          "searchParam": ""
+        }
+      },
+      method: "POST",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
       success(res){
         self.setData({
-          orders: res.data
+          orders: res.data.retValue.orders
         })
       }
     })

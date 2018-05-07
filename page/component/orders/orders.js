@@ -22,9 +22,29 @@ Page({
         self.setData({
           address: res.data,
           hasAddress: true
-        })
+        });
       }
     })
+
+    wx.getStorage({
+      key: 'orders',
+      success(res) {
+        console.log(res);
+        self.setData({
+          orders: res.data,
+        });
+      }
+    })
+
+    wx.getStorage({
+      key: 'total',
+      success(res) {
+        self.setData({
+          total: res.data,
+        });
+      }
+    })
+
   },
 
   /**
@@ -41,16 +61,39 @@ Page({
     })
   },
 
-  toPay() {
-    wx.showModal({
-      title: '提示',
-      content: '本系统只做演示，支付系统已屏蔽',
-      text:'center',
-      complete() {
-        wx.switchTab({
-          url: '/page/component/user/user'
-        })
+    toPay() {
+      var self = this;
+      let orders = this.data.orders;
+      var arr = new Array;
+      for (let i = 0; i < orders.length; i++) {
+      var array = orders[i].title.split(" ");
+      console.log(array);
+      var obj = { "gid": orders[i].gid, "spec": array[1], "price": orders[i].price, "num": orders[i].num};
+      arr.push(obj);
       }
-    })
-  }
+      wx.request({
+        url: 'https://www.lanrensc.cn/ysg-system/shop/createOrder', //仅为示例，并非真实的接口地址
+        data: {
+          orderGoods: arr,
+          cid: "1",
+          totalprice: self.data.total,
+          expressfee: "0",
+          contactname: self.data.address.name,
+          contactphone: self.data.address.phone,
+          address: self.data.address.detail,
+          createBy:"api",
+          orderstatus:"1"
+        },
+        method: "POST",
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          wx.switchTab({
+            url: '/page/component/user/user'
+          })
+        }
+      })
+    }
+
 })
