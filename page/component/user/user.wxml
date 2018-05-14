@@ -16,12 +16,13 @@
     </view>
     <view class="orders-box">
         <view class="orders">我的订单</view>
-        <view class="orders-list" wx:for="{{orders}}" wx:key="index">
+        <view wx:for="{{orders}}" wx:key="index" class="orders-list">
             <view class="orders-number">订单编号：{{item.number}}</view>
             <view class="orders-detail" wx:for="{{item.gInfo}}" wx:for-item="good">
                 <image src="{{good.thumb}}"></image>
-                <view class="">{{good.name}}</view>
-                <view class="">{{good.count}}</view>
+                <view class="">名称：{{good.name}}</view>
+                <view class="">单价：{{good.price}}元</view>
+                <view class="">数量{{good.count}}</view>
             </view>
             <view class="orders-footer">
                 <text>实付：￥{{item.money}}</text>

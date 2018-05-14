@@ -93,7 +93,7 @@
     height: 150rpx;
 }
 .orders-detail view{
-    line-height: 60rpx;
+    line-height: 55rpx;
 }
 .orders-detail .orders-status{
     position: absolute;

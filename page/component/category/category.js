@@ -7,8 +7,9 @@ Page({
     onReady(){
         var self = this;
         wx.request({
-          url:'https://www.lanrensc.cn/ysg-system/shop/category?cid=1',
+          url: 'https://www.lanrensc.cn/ysg-system/shop/category?cid=' + wx.getStorageSync('cid'),
             success(res){
+              console.log(res.data);
                 self.setData({
                   detail: res.data.retValue.detail,
                   category: res.data.retValue.category

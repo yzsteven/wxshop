@@ -1,7 +1,11 @@
 // page/component/orders/orders.js
 Page({
   data:{
-    address:{},
+    address:{
+      name: "",
+      phone: "",
+      detail: ""
+    },
     hasAddress: false,
     total:0,
     orders:[
@@ -29,7 +33,6 @@ Page({
     wx.getStorage({
       key: 'orders',
       success(res) {
-        console.log(res);
         self.setData({
           orders: res.data,
         });
@@ -67,21 +70,29 @@ Page({
       var arr = new Array;
       for (let i = 0; i < orders.length; i++) {
       var array = orders[i].title.split(" ");
-      console.log(array);
       var obj = { "gid": orders[i].gid, "spec": array[1], "price": orders[i].price, "num": orders[i].num};
       arr.push(obj);
+      }
+
+      if (self.data.address.name == '' || self.data.address.phone == '' || self.data.address.detail == ''){
+        wx.showModal({
+          title: '下单异常',
+          content: '联系人信息必填！',
+          showCancel: true
+        })
+        return;
       }
       wx.request({
         url: 'https://www.lanrensc.cn/ysg-system/shop/createOrder', //仅为示例，并非真实的接口地址
         data: {
           orderGoods: arr,
-          cid: "1",
+          cid: wx.getStorageSync('cid'),
           totalprice: self.data.total,
           expressfee: "0",
           contactname: self.data.address.name,
           contactphone: self.data.address.phone,
           address: self.data.address.detail,
-          createBy:"api",
+          createBy: wx.getStorageSync('openId'),
           orderstatus:"1"
         },
         method: "POST",

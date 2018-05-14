@@ -33,14 +33,11 @@ Page({
         self.setData({
           goods: res.data.retValue.good,
         })
-        self.setData({
-          [detail]: WxParse.wxParse('detail', 'html', res.data.retValue.good.detail, self, 5) ,
-          [parameter]: WxParse.wxParse('parameter', 'html', res.data.retValue.good.parameter, self, 5),
-          [service]: WxParse.wxParse('service', 'html', res.data.retValue.good.service, self, 5),
-        })
+          WxParse.wxParse('detail', 'html', res.data.retValue.good.detail, self, 5);
+          WxParse.wxParse('parameter', 'html', res.data.retValue.good.parameter, self, 5);
+          WxParse.wxParse('service', 'html', res.data.retValue.good.service, self, 5);
       }
     });
-    console.log(options)
   },
   addCount() {
     let num = this.data.num;
@@ -52,7 +49,6 @@ Page({
 
   minusCount() {
     let num = this.data.num;
-    console.log(num);
     if (num <= 1) {
       return false;
     }
@@ -87,11 +83,11 @@ Page({
       url: 'https://www.lanrensc.cn/ysg-system/shop/addShoppingCart',
       data: {
         gid: self.data.goods.id,
-        cid: 1,
+        cid: wx.getStorageSync('cid'),
         spec: self.data.goods.price[0].spec,
         price: self.data.goods.price[0].price,
-        createBy:'api',
-        updateBy:'api',
+        createBy: wx.getStorageSync('openId'),
+        updateBy: wx.getStorageSync('openId'),
         num: self.data.num
       },
       method:"POST",
@@ -99,7 +95,6 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success(res) {
-        console.log(res);
         self.setData({
           num: 1
         })

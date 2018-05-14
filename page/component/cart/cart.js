@@ -14,15 +14,14 @@ Page({
     wx.request({
       url: 'https://www.lanrensc.cn/ysg-system/shop/queryShoppingCart', //仅为示例，并非真实的接口地址
       data: {
-        cid: "1",
-        createBy: "api"
+        cid: wx.getStorageSync('cid'),
+        createBy: wx.getStorageSync('openId')
       },
       method: "POST",
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res);
         var hasList = true;
         if (!res.data.retValue.glist.length){
           hasList = false;
@@ -60,7 +59,6 @@ Page({
         ids: e.currentTarget.dataset.id,
       },
       success: function (res) {
-        console.log(res.data.retValue);
         if (res.data.retValue.result != "success"){
           wx.showModal({
             title: '提示',

@@ -7,7 +7,7 @@ Page({
     wx.request({
       url: 'https://www.lanrensc.cn/ysg-system/shop/list', //仅为示例，并非真实的接口地址
       data: {
-        cid: 1,
+        cid: wx.getStorageSync('cid'),
         type: options.type
       },
       success: function (res) {

@@ -28,13 +28,14 @@ Page({
       "detail": ""
     }
   },
-  onLoad(){
+  onShow(){
     var self = this;
+
     /**
-     * 获取用户信息
-     */
+         * 获取用户信息
+         */
     wx.getUserInfo({
-      success: function(res){
+      success: function (res) {
         self.setData({
           thumb: res.userInfo.avatarUrl,
           nickname: res.userInfo.nickName
@@ -42,33 +43,32 @@ Page({
       }
     }),
 
-    /**
-     * 发起请求获取订单列表信息
-     */
-    wx.request({
-      url: 'https://www.lanrensc.cn/ysg-system/shop/queryOrderListByUID',
-      data: {
-        "cid": "1",
-        "createBy": "api",
-        "pageHelper": {
-          "pageNumber": "",
-          "pageSize": "",
-          "searchParam": ""
+      /**
+       * 发起请求获取订单列表信息
+       */
+      wx.request({
+        url: 'https://www.lanrensc.cn/ysg-system/shop/queryOrderListByUID',
+        data: {
+          "cid": wx.getStorageSync('cid'),
+          "createBy": wx.getStorageSync('openId'),
+          "pageHelper": {
+            "pageNumber": "",
+            "pageSize": "",
+            "searchParam": ""
+          }
+        },
+        method: "POST",
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success(res) {
+          self.setData({
+            orders: res.data.retValue.orders
+          })
         }
-      },
-      method: "POST",
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success(res){
-        self.setData({
-          orders: res.data.retValue.orders
-        })
-      }
-    })
-  },
-  onShow(){
-    var self = this;
+      })
+
+
     /**
      * 获取本地缓存 地址信息
      */
@@ -93,7 +93,6 @@ Page({
       signType: 'MD5',
       paySign: 'String4',
       success: function(res){
-        console.log(res)
       },
       fail: function(res) {
         wx.showModal({
