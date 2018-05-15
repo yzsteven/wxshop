@@ -28,7 +28,7 @@ Page({
       "detail": ""
     }
   },
-  onShow(){
+  onLoad: function (options){
     var self = this;
 
     /**
@@ -41,8 +41,10 @@ Page({
           nickname: res.userInfo.nickName
         })
       }
-    }),
-
+    })
+  },
+  onShow(){
+    var self = this;
       /**
        * 发起请求获取订单列表信息
        */

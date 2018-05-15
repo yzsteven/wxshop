@@ -12,7 +12,7 @@ Page({
     if (options.cid){
       wx.setStorageSync('cid', options.cid);
     }else{
-      wx.setStorageSync('cid', 1);
+      wx.setStorageSync('cid', '1');
     }
     if (!openId){
       wx.login({
@@ -27,6 +27,7 @@ Page({
               console.log(res.data);
               if (res.data){
                 console.log(res.data)
+                console.log(res.data);
                 wx.setStorageSync('openId', res.data);
               }
             }

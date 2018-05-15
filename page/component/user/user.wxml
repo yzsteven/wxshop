@@ -16,7 +16,7 @@
     </view>
     <view class="orders-box">
         <view class="orders">我的订单</view>
-        <view wx:for="{{orders}}" wx:key="index" class="orders-list">
+        <view wx:for="{{orders}}" wx:key="{{index}}" class="orders-list">
             <view class="orders-number">订单编号：{{item.number}}</view>
             <view class="orders-detail" wx:for="{{item.gInfo}}" wx:for-item="good">
                 <image src="{{good.thumb}}"></image>
