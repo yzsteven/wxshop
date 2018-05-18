@@ -1,3 +1,4 @@
+const app = getApp();
 Page({
   data: {
     indicatorDots: false,
@@ -9,11 +10,7 @@ Page({
     var that = this;
     var data;
     var openId = wx.getStorageSync('openId');
-    if (options.cid){
-      wx.setStorageSync('cid', options.cid);
-    }else{
-      wx.setStorageSync('cid', '1');
-    }
+    wx.setStorageSync('cid', app.globalData.cid);
     if (!openId){
       wx.login({
         success: function (res) {
