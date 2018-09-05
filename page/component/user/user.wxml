@@ -2,7 +2,7 @@
     <view class="header">
         <image src="{{thumb}}" class="thumb"></image>
         <text class="nickname">{{nickname}}</text>
-        <text class="about">关于我们</text>
+        <!--<text class="about">关于我们</text>-->
     </view>
     <view class="address-box">
         <view class="address-manage">
@@ -17,18 +17,22 @@
     <view class="orders-box">
         <view class="orders">我的订单</view>
         <view wx:for="{{orders}}" wx:key="{{index}}" class="orders-list">
-            <view class="orders-number">订单编号：{{item.number}}</view>
+            <view class="orders-number">订单编号：{{item.number}}
+              <span wx:if="{{item.status == 1}}" class="os">待支付</span>
+              <span wx:if="{{item.status == 2}}" class="os">待发货</span>
+              <span wx:if="{{item.status == 3}}" class="os">待收货</span>
+              <span wx:if="{{item.status == 4}}" class="os">已完成</span>
+              <span wx:if="{{item.status == 5}}" class="os">已取消</span>
+            </view>
             <view class="orders-detail" wx:for="{{item.gInfo}}" wx:for-item="good">
                 <image src="{{good.thumb}}"></image>
                 <view class="">名称：{{good.name}}</view>
                 <view class="">单价：{{good.price}}元</view>
-                <view class="">数量{{good.count}}</view>
+                <view class="">数量：{{good.count}}{{good.spec}}</view>
             </view>
             <view class="orders-footer">
                 <text>实付：￥{{item.money}}</text>
-                <button size="mini" class="orders-btn" bindtap="payOrders" wx:if="{{item.status == 1}}">待支付</button>
-                 <button size="mini" class="orders-btn" bindtap="payOrders" wx:elif="{{item.status == 2}}">待发货</button>
-                  <button size="mini" class="orders-btn" bindtap="payOrders" wx:elif="{{item.status == 3}}">待收货</button>
+                <button size="mini" data-order-id="{{item.id}}" class="orders-btn" bindtap="payOrders" wx:if="{{item.status == 1}}">支付</button>
             </view>
         </view>
     </view>

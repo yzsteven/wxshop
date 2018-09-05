@@ -118,3 +118,11 @@
     background: #b42f2d;
     color: #fff;
 }
+
+.os{
+  position:absolute;
+  right:110rpx;
+  color:red;
+  font-size:13px;
+
+}

@@ -1,3 +1,4 @@
+const app = getApp();
 Page({
     data: {
         curIndex: 0,
@@ -7,7 +8,7 @@ Page({
     onReady(){
         var self = this;
         wx.request({
-          url: 'https://www.lanrensc.cn/ysg-system/shop/category?cid=' + wx.getStorageSync('cid'),
+          url: app.globalData.host + '/shop/category?cid=' + wx.getStorageSync('cid'),
             success(res){
               console.log(res.data);
                 self.setData({

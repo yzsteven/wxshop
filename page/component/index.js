@@ -6,24 +6,28 @@ Page({
     interval: 3000,
     duration: 800,
   },
+  onPullDownRefresh: function () {
+        wx.stopPullDownRefresh()
+  },
   onLoad : function(options){
     var that = this;
     var data;
     var openId = wx.getStorageSync('openId');
+    console.log(app.globalData.cid);
     wx.setStorageSync('cid', app.globalData.cid);
     if (!openId){
       wx.login({
         success: function (res) {
           console.log(res.code);
           wx.request({
-            url: "https://www.lanrensc.cn/ysg-system/wx/queryOpenId",
+            url: app.globalData.host + "/wx/queryOpenId",
             data : {
+              cid: wx.getStorageSync('cid'),
               code : res.code
             },
             success: function (res) {
               console.log(res.data);
               if (res.data){
-                console.log(res.data)
                 console.log(res.data);
                 wx.setStorageSync('openId', res.data);
               }
@@ -35,7 +39,7 @@ Page({
 
 
     wx.request({
-      url: 'https://www.lanrensc.cn/ysg-system/shop/index', //仅为示例，并非真实的接口地址
+      url: app.globalData.host + '/shop/index', //仅为示例，并非真实的接口地址
       data: {
         cid: wx.getStorageSync('cid')
       },

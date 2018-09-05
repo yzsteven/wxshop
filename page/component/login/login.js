@@ -1,7 +1,11 @@
+const app = getApp();
 Page({
 
   data: {
     　　canIUse: wx.canIUse('button.open-type.getUserInfo')
+  },
+  onPullDownRefresh: function () {
+    wx.stopPullDownRefresh()
   },
   onLoad: function (options) {
     console.log(wx.canIUse('button.open-type.getUserInfo'));
@@ -21,6 +25,7 @@ Page({
   },
   bindGetUserInfo: function (e) {
     if (e.detail.userInfo){
+      console.log(e.detail.userInfo);
     　　getApp().globalData.userInfo = e.detail.userInfo;   //将授权信息传递给全局变量
         wx.switchTab({
           url: '/page/component/index',

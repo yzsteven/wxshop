@@ -1,4 +1,5 @@
 // page/component/orders/orders.js
+const app = getApp();
 Page({
   data:{
     address:{
@@ -17,7 +18,9 @@ Page({
   onReady() {
     this.getTotalPrice();
   },
-  
+  onPullDownRefresh: function () {
+    wx.stopPullDownRefresh()
+  },
   onShow:function(){
     const self = this;
     wx.getStorage({
@@ -83,11 +86,12 @@ Page({
         return;
       }
       wx.request({
-        url: 'https://www.lanrensc.cn/ysg-system/shop/createOrder', //仅为示例，并非真实的接口地址
+        url: app.globalData.host +'/shop/createOrder', //仅为示例，并非真实的接口地址
         data: {
           orderGoods: arr,
           cid: wx.getStorageSync('cid'),
           totalprice: self.data.total,
+          payprice: self.data.total,
           expressfee: "0",
           contactname: self.data.address.name,
           contactphone: self.data.address.phone,
@@ -100,8 +104,47 @@ Page({
           'content-type': 'application/json' // 默认值
         },
         success: function (res) {
-          wx.switchTab({
-            url: '/page/component/user/user'
+          console.log(res);
+          if (res.data.retValue.result == "success"){
+            self.payOrders(res.data.retValue.orderId);
+            wx.switchTab({
+              url: '/page/component/user/user'
+            })
+          }
+        }
+      })
+    },
+
+      /**
+   * 发起支付请求
+   */
+  payOrders(orderId) {
+    console.log(orderId);
+    console.log(wx.getStorageSync('openId'));
+      wx.request({
+        url: app.globalData.host + '/wx/queryPayPackageInfo', //仅为示例，并非真实的接口地址
+        data: {
+          id: orderId,
+          openId: wx.getStorageSync('openId')
+        },
+        success: function (res) {
+          wx.requestPayment({
+            timeStamp: res.data.retValue.timeStamp,
+            nonceStr: res.data.retValue.nonceStr,
+            package: res.data.retValue.package,
+            signType: res.data.retValue.signType,
+            paySign: res.data.retValue.paySign,
+            success: function (res) {
+             console.log("支付成功！")
+            },
+            fail: function (res) {
+              
+            },
+            complete:function(res){
+              wx.switchTab({
+                url: '../../user/user',
+              })
+            }
           })
         }
       })

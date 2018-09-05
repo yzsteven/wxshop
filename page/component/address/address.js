@@ -7,6 +7,9 @@ Page({
       detail:''
     }
   },
+  onPullDownRefresh: function () {
+    wx.stopPullDownRefresh()
+  },
   onLoad(){
     var self = this;
     

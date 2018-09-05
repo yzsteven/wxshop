@@ -1,6 +1,6 @@
 // page/component/details/details.js
-var app = getApp();
-var WxParse = require('../wxParse/wxParse.js');
+const app = getApp();
+const WxParse = require('../wxParse/wxParse.js');
 Page({
   data: {
     num: 1,
@@ -22,13 +22,16 @@ Page({
     interval: 3000,
     duration: 800
   },
+  onPullDownRefresh: function () {
+    wx.stopPullDownRefresh()
+  },
   onLoad: function (options) {
     var self = this;
     var detail = this.data.goods.detail;
     var parameter = this.data.goods.parameter;
     var service = this.data.goods.service
     wx.request({
-      url: 'https://www.lanrensc.cn/ysg-system/shop/details?id=' + options.id,
+      url: app.globalData.host + '/shop/details?id=' + options.id,
       success(res) {
         self.setData({
           goods: res.data.retValue.good,
@@ -42,6 +45,7 @@ Page({
   addCount() {
     let num = this.data.num;
     num++;
+    console.log(num);
     this.setData({
       num: num
     })
@@ -80,7 +84,7 @@ Page({
     }, 300)
     
     wx.request({
-      url: 'https://www.lanrensc.cn/ysg-system/shop/addShoppingCart',
+      url: app.globalData.host + '/shop/addShoppingCart',
       data: {
         gid: self.data.goods.id,
         cid: wx.getStorageSync('cid'),

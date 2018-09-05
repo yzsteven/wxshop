@@ -1,4 +1,5 @@
 // page/component/new-pages/cart/cart.js
+const app = getApp();
 Page({
   data: {
     carts:[],               // 购物车列表
@@ -9,10 +10,13 @@ Page({
         name:"hello"
     }
   },
+  onPullDownRefresh: function () {
+    wx.stopPullDownRefresh()
+  },
   onShow() {
     var self = this;
     wx.request({
-      url: 'https://www.lanrensc.cn/ysg-system/shop/queryShoppingCart', //仅为示例，并非真实的接口地址
+      url: app.globalData.host + '/shop/queryShoppingCart', //仅为示例，并非真实的接口地址
       data: {
         cid: wx.getStorageSync('cid'),
         createBy: wx.getStorageSync('openId')

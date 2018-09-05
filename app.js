@@ -11,6 +11,7 @@ App({
   globalData: {
     hasLogin: false,
     userInfo : null,
-    cid:"0002"
+    cid:"0002",
+    host:"https://www.lanrensc.cn/ysg-system"
   }
 })
