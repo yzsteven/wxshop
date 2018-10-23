@@ -28,7 +28,7 @@
                 <image src="{{good.thumb}}"></image>
                 <view class="">名称：{{good.name}}</view>
                 <view class="">单价：{{good.price}}元</view>
-                <view class="">数量：{{good.count}}{{good.spec}}</view>
+                <view class="">数量：{{good.count}} 规格：{{good.spec}}</view>
             </view>
             <view class="orders-footer">
                 <text>实付：￥{{item.money}}</text>

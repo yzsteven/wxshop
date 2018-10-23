@@ -35,7 +35,7 @@ swiper-item image {
 .newest-box .newest-list{
     display: inline-block;
     width: 325rpx;
-    height: 325rpx;
+    height: 350rpx;
     margin:0 20rpx 20rpx 0;
     border-radius: 10px;
     text-align: center;

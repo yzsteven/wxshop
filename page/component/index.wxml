@@ -33,7 +33,8 @@
             <view class="newest-list">
                 <navigator url="details/details?id={{item.gid}}">
                     <image src="{{item.imgUrls}}"></image>
-                    <view class="newest-text"><text>{{item.name}} {{item.spec}}</text></view>
+                    <view class="newest-text"><text>{{item.name}}</text></view>
+                    <view class="newest-text"><text>{{item.spec}}</text></view>
                     <view class="newest-text"><text>￥ {{item.price}}</text></view>
                 </navigator>
             </view>
